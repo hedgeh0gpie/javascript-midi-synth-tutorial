@@ -3,6 +3,7 @@
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 let ctx = new AudioContext();
 const startButton = document.querySelector('button');
+const oscillators = {};
 
 startButton.addEventListener('click', () => {
     ctx = new AudioContext();
@@ -67,6 +68,9 @@ function noteOn(note, velocity) {
     console.log(note, velocity);
 
     const osc = ctx.createOscillator();
+    oscillators[note.toString()] = osc;
+    console.log(oscillators);
+
     const oscGain = ctx.createGain();
     oscGain.gain.value = 0.33;
 
@@ -83,6 +87,8 @@ function noteOn(note, velocity) {
 
 function noteOff(note) {
     console.log(note);
+
+
 }
 
 function updateDevices(event) {
