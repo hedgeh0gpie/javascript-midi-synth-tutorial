@@ -68,12 +68,9 @@ function noteOn(note, velocity) {
     console.log(note, velocity);
 
     const osc = ctx.createOscillator();
-    oscillators[note.toString()] = osc;
-    console.log(oscillators);
 
     const oscGain = ctx.createGain();
     oscGain.gain.value = 0.33;
-
 
     const velocityGainAmount = (1 / 127) * velocity;
     const velocityGain = ctx.createGain();
@@ -85,17 +82,30 @@ function noteOn(note, velocity) {
     osc.connect(oscGain);
     oscGain.connect(velocityGain);
     velocityGain.connect(ctx.destination);
-    osc.start();
 
+    osc.gain = oscGain;
     console.log(osc);
-
+    oscillators[note.toString()] = osc;
+    console.log(oscillators);
+    osc.start();
 }
 
 function noteOff(note) {
     console.log(note);
 
     const osc = oscillators[note.toString()];
-    osc.stop();
+    const oscGain = osc.gain;
+
+    // Fade out notes to prevent clicks
+    oscGain.gain.setValueAtTime(oscGain.gain.value, ctx.currentTime);
+    oscGain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.03);
+
+    // Garbage collector
+    setTimeout(() =>{
+        osc.stop();
+        osc.disconnect();
+    }, 20);
+
 
     delete oscillators[note.toString()];
     console.log(oscillators);
