@@ -11,7 +11,7 @@ startButton.addEventListener('click', () => {
 
 function midiToFreq(number) {
     const a = 440;
-    return (a / 32) * (2 ** (number - 9) / 12);
+    return (a / 32) * ((2 ** (number - 9) / 12));
 }
 
 if (navigator.requestMIDIAccess) {
@@ -68,7 +68,7 @@ function noteOn(note, velocity) {
 
     const osc = ctx.createOscillator();
     osc.type = 'sine';
-    osc.frequency.value = '440';
+    osc.frequency.value = midiToFreq(note);
 
     osc.connect(ctx.destination);
     osc.start();
