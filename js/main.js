@@ -62,6 +62,16 @@ function handleInput(input) {
 
 function noteOn(note, velocity) {
     console.log(note, velocity);
+
+    const osc = ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.value = '440';
+
+    osc.connect(ctx.destination);
+    osc.start();
+
+    console.log(osc);
+
 }
 
 function noteOff(note) {
