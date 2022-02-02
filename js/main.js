@@ -1,15 +1,18 @@
 "use strict";
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
-
 let ctx = new AudioContext();
-
 const startButton = document.querySelector('button');
 
 startButton.addEventListener('click', () => {
     ctx = new AudioContext();
     console.log(ctx);
 })
+
+function midiToFreq(number) {
+    const a = 440;
+    return (a / 32) * (2 ** (number - 9) / 12);
+}
 
 if (navigator.requestMIDIAccess) {
     navigator.requestMIDIAccess().then(success, failure);
