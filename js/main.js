@@ -11,7 +11,7 @@ startButton.addEventListener('click', () => {
 
 function midiToFreq(number) {
     const a = 440;
-    return (a / 32) * ((2 ** (number - 9) / 12));
+    return (a / 32) * (2 ** ((number - 9) / 12));
 }
 
 if (navigator.requestMIDIAccess) {
