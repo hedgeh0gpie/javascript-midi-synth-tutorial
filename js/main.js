@@ -74,11 +74,17 @@ function noteOn(note, velocity) {
     const oscGain = ctx.createGain();
     oscGain.gain.value = 0.33;
 
+
+    const velocityGainAmount = (1 / 127) * velocity;
+    const velocityGain = ctx.createGain();
+    velocityGain.gain.value = velocityGainAmount;
+
     osc.type = 'sine';
     osc.frequency.value = midiToFreq(note);
 
     osc.connect(oscGain);
-    oscGain.connect(ctx.destination);
+    oscGain.connect(velocityGain);
+    velocityGain.connect(ctx.destination);
     osc.start();
 
     console.log(osc);
