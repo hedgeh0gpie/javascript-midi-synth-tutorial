@@ -88,8 +88,11 @@ function noteOn(note, velocity) {
 function noteOff(note) {
     console.log(note);
 
-    const osc = oscillators[note.toString()]
+    const osc = oscillators[note.toString()];
     osc.stop();
+
+    delete oscillators[note.toString()];
+    console.log(oscillators);
 
 }
 
